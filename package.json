@@ -30,7 +30,23 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "rules": {},
+    "overrides": [
+      {
+        "files": [
+          "**/*.ts?(x)"
+        ],
+        "rules": {}
+      }
     ]
+  },
+  "prettier": {
+    "jsxSingleQuote": true,
+    "printWidth": 120,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   },
   "husky": {
     "hooks": {
