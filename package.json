@@ -6,7 +6,9 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "type:check:watch": "npm run type:check -- --watch",
+    "type:check": "tsc --noEmit"
   },
   "dependencies": {
     "@craco/craco": "^6.2.0",
