@@ -30,3 +30,9 @@ jobs:
         with:
           key: ${{ secrets.DREAMHOST_SSH_KEY }}
           known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.DREAMHOST_SERVER }} >> ~/.ssh/known_hosts
+
+      - name: Deploy with rsync
+        run: rsync -avzn ./public/ ${{ secrets.DREAMHOST_USER }}@${{ secrets.DREAMHOST_SERVER }}:/home/greeze/joegores.com/${{ github.event.repository.name }}/
