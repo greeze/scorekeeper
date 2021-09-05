@@ -23,6 +23,8 @@ jobs:
       #   run: npm run test
 
       - name: Build application
+        env:
+          PUBLIC_URL: /${{ github.event.repository.name }}
         run: npm run build
 
       - name: Install SSH key
