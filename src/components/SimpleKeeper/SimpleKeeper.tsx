@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRecoilState } from 'recoil'
+import cx from 'classnames'
 import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/solid'
 
 import {
@@ -20,6 +21,19 @@ export default function SimpleKeeper() {
   const decrementPlayerScore = useDecrementPlayerScore(setPlayers)
   const cols = (n: number) => Math.min(n, playersList.length)
 
+  const gridClasses = cx(
+    'bg-gray-100',
+    'gap-4',
+    'grid',
+    'p-4',
+    'rounded-md',
+    'shadow-md',
+    `grid-cols-${cols(2)}`,
+    `lg:grid-cols-${cols(4)}`,
+    `md:grid-cols-${cols(3)}`,
+    `xl:grid-cols-${cols(6)}`,
+  )
+
   return (
     <>
       <div className='flex flex-row p-4 md:px-4 md:mb-4 items-center'>
@@ -27,11 +41,7 @@ export default function SimpleKeeper() {
         <h1 className='flex-grow text-xl font-semibold md:text-2xl md:font-bold'>Players</h1>
         <CircleIconButton colorName='green' IconComponent={PlusCircleIcon} onClick={addPlayer} />
       </div>
-      <div
-        className={`grid grid-cols-${cols(2)} md:grid-cols-${cols(3)} lg:grid-cols-${cols(4)} xl:grid-cols-${cols(
-          6,
-        )} gap-4 bg-gray-100 shadow-md p-4 rounded-md`}
-      >
+      <div className={gridClasses}>
         {playersList.map((player, index) => (
           <PlayerColumn
             decrement={decrementPlayerScore}
