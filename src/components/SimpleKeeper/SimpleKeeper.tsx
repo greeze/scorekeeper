@@ -18,6 +18,7 @@ export default function SimpleKeeper() {
   const removePlayer = useRemovePlayer(setPlayers)
   const incrementPlayerScore = useIncrementPlayerScore(setPlayers)
   const decrementPlayerScore = useDecrementPlayerScore(setPlayers)
+  const cols = (n: number) => Math.min(n, playersList.length)
 
   return (
     <>
@@ -27,7 +28,9 @@ export default function SimpleKeeper() {
         <CircleIconButton colorName='green' IconComponent={PlusCircleIcon} onClick={addPlayer} />
       </div>
       <div
-        className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-${playersList.length} gap-4 bg-gray-100 shadow-md p-4 rounded-md`}
+        className={`grid grid-cols-${cols(2)} md:grid-cols-${cols(3)} lg:grid-cols-${cols(4)} xl:grid-cols-${cols(
+          6,
+        )} gap-4 bg-gray-100 shadow-md p-4 rounded-md`}
       >
         {playersList.map((player, index) => (
           <PlayerColumn
