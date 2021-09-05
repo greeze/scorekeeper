@@ -10,12 +10,23 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
+
       - name: Set up node
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-        run: npm run test
+
+      - name: Install dependencies
+        run: npm install
+
+      # - name: Run tests
+      #   run: npm run test
+
+      - name: Build application
+        run: npm run build
+
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.DREAMHOST_SSH_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
