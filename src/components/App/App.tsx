@@ -1,12 +1,13 @@
 import React from 'react'
+import { Container } from '@mui/material'
 
 import SimpleKeeper from 'components/SimpleKeeper'
 
 function App() {
   return (
-    <div className='container mx-auto text-center md:p-8'>
+    <Container>
       <SimpleKeeper />
-    </div>
+    </Container>
   )
 }
 

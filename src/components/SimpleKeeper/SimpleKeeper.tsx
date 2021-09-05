@@ -1,58 +1,55 @@
-import React from 'react'
-import { useRecoilState } from 'recoil'
-import cx from 'classnames'
-import { MinusCircleIcon, PlusCircleIcon } from '@heroicons/react/solid'
+import { useState } from 'react'
+import memoizeOne from 'memoize-one'
+import { AppBar, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material'
+import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
 
 import {
-  playerListState,
+  initialPlayers,
   useAddPlayer,
   useDecrementPlayerScore,
   useIncrementPlayerScore,
   useRemovePlayer,
-} from './atoms'
-import { CircleIconButton } from 'components/primitives/CircleIconButton'
+} from './hooks'
 import { PlayerColumn } from './PlayerColumn'
 
 export default function SimpleKeeper() {
-  const [playersList, setPlayers] = useRecoilState(playerListState)
+  const [playersList, setPlayers] = useState(initialPlayers)
   const addPlayer = useAddPlayer(setPlayers)
   const removePlayer = useRemovePlayer(setPlayers)
   const incrementPlayerScore = useIncrementPlayerScore(setPlayers)
   const decrementPlayerScore = useDecrementPlayerScore(setPlayers)
-  const cols = (n: number) => Math.min(n, playersList.length)
 
-  const gridClasses = cx(
-    'bg-gray-100',
-    'gap-4',
-    'grid',
-    'p-4',
-    'rounded-md',
-    'shadow-md',
-    `grid-cols-${cols(2)}`,
-    `lg:grid-cols-${cols(4)}`,
-    `md:grid-cols-${cols(3)}`,
-    `xl:grid-cols-${cols(6)}`,
-  )
+  const cols = memoizeOne((n: number) => Math.min(n, playersList.length))
+  const columns = { xs: cols(2), sm: cols(3), md: cols(4), lg: cols(5), xl: cols(6) }
 
   return (
-    <>
-      <div className='flex flex-row p-4 md:px-4 md:mb-4 items-center'>
-        <CircleIconButton colorName='red' IconComponent={MinusCircleIcon} onClick={removePlayer} />
-        <h1 className='flex-grow text-xl font-semibold md:text-2xl md:font-bold'>Players</h1>
-        <CircleIconButton colorName='green' IconComponent={PlusCircleIcon} onClick={addPlayer} />
-      </div>
-      <div className={gridClasses}>
+    <Paper>
+      <AppBar position='sticky' title='Players'>
+        <Toolbar>
+          <Grid container justifyContent='space-between' alignContent='stretch' alignItems='center'>
+            <IconButton color='inherit' onClick={removePlayer}>
+              <RemoveCircleRounded />
+            </IconButton>
+            <Typography variant='h6'>Players</Typography>
+            <IconButton color='inherit' onClick={addPlayer}>
+              <AddCircleRounded />
+            </IconButton>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+      <Grid container columns={columns} padding={2} spacing={2}>
         {playersList.map((player, index) => (
-          <PlayerColumn
-            decrement={decrementPlayerScore}
-            increment={incrementPlayerScore}
-            index={index}
-            key={player.name}
-            name={player.name}
-            score={player.score}
-          />
+          <Grid item key={player.name} xs={1} sm={1} md={1} lg={1} xl={1}>
+            <PlayerColumn
+              decrement={decrementPlayerScore}
+              increment={incrementPlayerScore}
+              index={index}
+              name={player.name}
+              score={player.score}
+            />
+          </Grid>
         ))}
-      </div>
-    </>
+      </Grid>
+    </Paper>
   )
 }

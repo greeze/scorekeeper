@@ -1,15 +1,13 @@
+import '@fontsource/roboto'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { RecoilRoot } from 'recoil'
-import './index.css'
 import App from 'components/App'
 import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
+    <App />
   </React.StrictMode>,
   document.getElementById('root'),
 )
