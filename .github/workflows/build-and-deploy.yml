@@ -3,10 +3,19 @@ on:
   push:
     branches:
       - main
-env:
-  node-version: '16'
 jobs:
-  write-to-console:
+  build-and-deploy:
+    name: Build and deploy
     runs-on: ubuntu-latest
     steps:
-      - run: echo 'Hello world!'
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Set up node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+        run: npm run test
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.DREAMHOST_SSH_KEY }}
