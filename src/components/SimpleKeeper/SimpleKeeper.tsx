@@ -1,26 +1,18 @@
-import { useState } from 'react'
-import memoizeOne from 'memoize-one'
+import React, { memo, useMemo } from 'react'
 import { AppBar, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material'
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
 
-import {
-  initialPlayers,
-  useAddPlayer,
-  useDecrementPlayerScore,
-  useIncrementPlayerScore,
-  useRemovePlayer,
-} from './hooks'
-import { PlayerColumn } from './PlayerColumn'
+import { useKeeperActions, useKeeperReducer } from './hooks'
+import Player from './Player'
 
-export default function SimpleKeeper() {
-  const [playersList, setPlayers] = useState(initialPlayers)
-  const addPlayer = useAddPlayer(setPlayers)
-  const removePlayer = useRemovePlayer(setPlayers)
-  const incrementPlayerScore = useIncrementPlayerScore(setPlayers)
-  const decrementPlayerScore = useDecrementPlayerScore(setPlayers)
+export default memo(function SimpleKeeper() {
+  const [{ players }, dispatch] = useKeeperReducer()
+  const { addPlayer, removePlayer, updatePlayer } = useKeeperActions(dispatch)
 
-  const cols = memoizeOne((n: number) => Math.min(n, playersList.length))
-  const columns = { xs: cols(2), sm: cols(3), md: cols(4), lg: cols(5), xl: cols(6) }
+  const columns = useMemo(() => {
+    const min = (n: number) => Math.min(n, players.length)
+    return { xs: min(2), sm: min(3), md: min(4), lg: min(5), xl: min(6) }
+  }, [players.length])
 
   return (
     <Paper>
@@ -38,18 +30,12 @@ export default function SimpleKeeper() {
         </Toolbar>
       </AppBar>
       <Grid container columns={columns} padding={2} spacing={2}>
-        {playersList.map((player, index) => (
-          <Grid item key={player.name} xs={1} sm={1} md={1} lg={1} xl={1}>
-            <PlayerColumn
-              decrement={decrementPlayerScore}
-              increment={incrementPlayerScore}
-              index={index}
-              name={player.name}
-              score={player.score}
-            />
+        {players.map((player) => (
+          <Grid item key={player.id} xs={1} sm={1} md={1} lg={1} xl={1}>
+            <Player player={player} onChange={updatePlayer} />
           </Grid>
         ))}
       </Grid>
     </Paper>
   )
-}
+})
