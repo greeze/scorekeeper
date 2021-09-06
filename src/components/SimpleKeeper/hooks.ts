@@ -1,22 +1,16 @@
 import { useCallback } from 'react'
-import { atom, SetterOrUpdater } from 'recoil'
 
 interface PlayerData {
   name: string
   score: number
 }
 
-const initialPlayers: PlayerData[] = [
+export const initialPlayers: PlayerData[] = [
   { name: 'Player 1', score: 0 },
   { name: 'Player 2', score: 0 },
 ]
 
-export const playerListState = atom<PlayerData[]>({
-  key: 'playerListState',
-  default: [...initialPlayers],
-})
-
-export const useAddPlayer = (setPlayers: SetterOrUpdater<PlayerData[]>) => {
+export const useAddPlayer = (setPlayers: React.Dispatch<React.SetStateAction<PlayerData[]>>) => {
   return useCallback(() => {
     setPlayers((players) => [
       ...players,
@@ -28,13 +22,13 @@ export const useAddPlayer = (setPlayers: SetterOrUpdater<PlayerData[]>) => {
   }, [setPlayers])
 }
 
-export const useRemovePlayer = (setPlayers: SetterOrUpdater<PlayerData[]>) => {
+export const useRemovePlayer = (setPlayers: React.Dispatch<React.SetStateAction<PlayerData[]>>) => {
   return useCallback(() => {
     setPlayers((players) => players.slice(0, -1))
   }, [setPlayers])
 }
 
-export const useIncrementPlayerScore = (setPlayers: SetterOrUpdater<PlayerData[]>) => {
+export const useIncrementPlayerScore = (setPlayers: React.Dispatch<React.SetStateAction<PlayerData[]>>) => {
   return useCallback(
     (playerIndex: number) => {
       setPlayers((players) => {
@@ -52,7 +46,7 @@ export const useIncrementPlayerScore = (setPlayers: SetterOrUpdater<PlayerData[]
   )
 }
 
-export const useDecrementPlayerScore = (setPlayers: SetterOrUpdater<PlayerData[]>) => {
+export const useDecrementPlayerScore = (setPlayers: React.Dispatch<React.SetStateAction<PlayerData[]>>) => {
   return useCallback(
     (playerIndex: number) => {
       setPlayers((players) => {
