@@ -1,65 +1,75 @@
-import { useCallback } from 'react'
+import type { KeeperState } from './types'
+import type { PlayerData } from './Player/types'
 
-interface PlayerData {
-  name: string
-  score: number
+import { useMemo, useReducer } from 'react'
+
+type KeeperAction = { type: 'add_player' } | { type: 'remove_player' } | { type: 'update_player'; payload: PlayerData }
+
+const createPlayers = (num: number): PlayerData[] => {
+  const players = []
+  for (let i = 1; i <= num; i++) {
+    players.push({
+      id: i,
+      name: `Player ${i}`,
+      score: 0,
+    })
+  }
+  return players
 }
 
-export const initialPlayers: PlayerData[] = [
-  { name: 'Player 1', score: 0 },
-  { name: 'Player 2', score: 0 },
-]
-
-export const useAddPlayer = (setPlayers: React.Dispatch<React.SetStateAction<PlayerData[]>>) => {
-  return useCallback(() => {
-    setPlayers((players) => [
-      ...players,
-      {
-        name: `Player ${players.length + 1}`,
-        score: 0,
-      },
-    ])
-  }, [setPlayers])
-}
-
-export const useRemovePlayer = (setPlayers: React.Dispatch<React.SetStateAction<PlayerData[]>>) => {
-  return useCallback(() => {
-    setPlayers((players) => players.slice(0, -1))
-  }, [setPlayers])
-}
-
-export const useIncrementPlayerScore = (setPlayers: React.Dispatch<React.SetStateAction<PlayerData[]>>) => {
-  return useCallback(
-    (playerIndex: number) => {
-      setPlayers((players) => {
-        return players.map((player, index) => {
-          return index === playerIndex
-            ? {
-                ...player,
-                score: player.score + 1,
-              }
-            : player
-        })
-      })
-    },
-    [setPlayers],
+export const useKeeperActions = (dispatch: React.Dispatch<KeeperAction>) => {
+  return useMemo(
+    () => ({
+      addPlayer: () => dispatch({ type: 'add_player' }),
+      removePlayer: () => dispatch({ type: 'remove_player' }),
+      updatePlayer: (data: PlayerData) => dispatch({ type: 'update_player', payload: data }),
+    }),
+    [dispatch],
   )
 }
 
-export const useDecrementPlayerScore = (setPlayers: React.Dispatch<React.SetStateAction<PlayerData[]>>) => {
-  return useCallback(
-    (playerIndex: number) => {
-      setPlayers((players) => {
-        return players.map((player, index) => {
-          return index === playerIndex
-            ? {
-                ...player,
-                score: player.score - 1,
-              }
-            : player
-        })
-      })
-    },
-    [setPlayers],
-  )
+export const useKeeperReducer = () => {
+  const reducer = (keeperState: KeeperState, action: KeeperAction): KeeperState => {
+    switch (action.type) {
+      case 'add_player': {
+        const { players } = keeperState
+        return {
+          ...keeperState,
+          players: [
+            ...players,
+            {
+              id: players.length + 1,
+              name: `Player ${players.length + 1}`,
+              score: 0,
+            },
+          ],
+        }
+      }
+
+      case 'remove_player': {
+        const { players } = keeperState
+        return {
+          ...keeperState,
+          players: players.slice(0, -1),
+        }
+      }
+
+      case 'update_player': {
+        const players = [...keeperState.players]
+        const data = action.payload
+        const index = players.findIndex(({ id }) => id === data.id)
+        players[index] = { ...players[index], ...data }
+        return {
+          ...keeperState,
+          players,
+        }
+      }
+
+      default: {
+        return keeperState
+      }
+    }
+  }
+
+  return useReducer(reducer, { players: createPlayers(2) })
 }
