@@ -36,14 +36,12 @@ export const usePlayerActions = (player: PlayerData, onChange: (data: PlayerData
     },
     [onChange, player],
   )
-  const updateScore = useCallback(
+  const addScore = useCallback(
     (amt: number) => {
       onChange({ ...player, score: player.score + amt })
     },
     [onChange, player],
   )
-  const decrement = useCallback(() => updateScore(-1), [updateScore])
-  const increment = useCallback(() => updateScore(1), [updateScore])
 
-  return useMemo(() => ({ decrement, increment, rename }), [decrement, increment, rename])
+  return useMemo(() => ({ rename, addScore }), [rename, addScore])
 }

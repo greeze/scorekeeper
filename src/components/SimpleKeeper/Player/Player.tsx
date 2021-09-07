@@ -11,7 +11,7 @@ export interface PlayerProps {
 }
 
 export default memo(function PlayerColumn({ onChange = () => null, player }: PlayerProps) {
-  const { decrement, increment, rename } = usePlayerActions(player, onChange)
+  const { rename, addScore } = usePlayerActions(player, onChange)
   const selectOnFocus = useHandleFocus()
   const blurOnEnterKey = useHandleEnterKey()
   const updateNameOnBlur = useHandleBlur(rename)
@@ -38,11 +38,17 @@ export default memo(function PlayerColumn({ onChange = () => null, player }: Pla
           {player.score}
         </Typography>
         <ButtonGroup fullWidth size='large' variant='contained'>
-          <Button data-testid='decrement-score' onClick={decrement}>
-            <RemoveCircleRounded />
+          <Button data-testid='decrement-score' onClick={() => addScore(-1)}>
+            <RemoveCircleRounded /> 1
           </Button>
-          <Button data-testid='increment-score' onClick={increment}>
-            <AddCircleRounded />
+          <Button data-testid='decrement-score-10' onClick={() => addScore(-10)}>
+            <RemoveCircleRounded /> 10
+          </Button>
+          <Button data-testid='increment-score-10' onClick={() => addScore(10)}>
+            <AddCircleRounded /> 10
+          </Button>
+          <Button data-testid='increment-score' onClick={() => addScore(1)}>
+            <AddCircleRounded /> 1
           </Button>
         </ButtonGroup>
       </Stack>
