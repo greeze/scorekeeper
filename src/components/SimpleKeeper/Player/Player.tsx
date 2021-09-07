@@ -3,7 +3,7 @@ import type { PlayerData } from './types'
 import React, { memo } from 'react'
 import { Button, ButtonGroup, Card, Divider, Stack, Typography } from '@mui/material'
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
-import { useHandleEnterKey, useHandleNameChange, usePlayerActions } from './hooks'
+import { useHandleEnterKey, useHandleFocus, useHandleBlur, usePlayerActions } from './hooks'
 
 export interface PlayerProps {
   player: PlayerData
@@ -12,8 +12,9 @@ export interface PlayerProps {
 
 export default memo(function PlayerColumn({ onChange = () => null, player }: PlayerProps) {
   const { decrement, increment, rename } = usePlayerActions(player, onChange)
-  const handleEnterKey = useHandleEnterKey()
-  const handleNameChange = useHandleNameChange(rename)
+  const selectOnFocus = useHandleFocus()
+  const blurOnEnterKey = useHandleEnterKey()
+  const updateNameOnBlur = useHandleBlur(rename)
 
   return (
     <Card>
@@ -22,12 +23,16 @@ export default memo(function PlayerColumn({ onChange = () => null, player }: Pla
           component='div'
           contentEditable
           data-testid='player-name'
-          onBlur={handleNameChange}
-          onKeyDown={handleEnterKey}
+          maxWidth='100%'
+          noWrap
+          onBlur={updateNameOnBlur}
+          onFocus={selectOnFocus}
+          onKeyDown={blurOnEnterKey}
+          px={1}
           suppressContentEditableWarning
           variant='h6'
         >
-          {player.name}:
+          {player.name}
         </Typography>
         <Typography data-testid='player-score' variant='h3'>
           {player.score}

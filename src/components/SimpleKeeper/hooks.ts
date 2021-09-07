@@ -1,7 +1,7 @@
-import type { KeeperState, PlayerData } from './types'
-import type { FocusEvent, KeyboardEvent } from 'react'
+import type { KeeperState } from './types'
+import type { PlayerData } from './Player/types'
 
-import { useCallback, useMemo, useReducer } from 'react'
+import { useMemo, useReducer } from 'react'
 
 type KeeperAction = { type: 'add_player' } | { type: 'remove_player' } | { type: 'update_player'; payload: PlayerData }
 
@@ -15,46 +15,6 @@ const createPlayers = (num: number): PlayerData[] => {
     })
   }
   return players
-}
-
-export const useHandleEnterKey = () =>
-  useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      const target = e.target as HTMLDivElement
-      target.blur()
-      e.preventDefault()
-      e.stopPropagation()
-    }
-  }, [])
-
-export const useHandleNameChange = (rename: (name: string) => void) =>
-  useCallback(
-    (e: FocusEvent) => {
-      const { textContent } = e.target as HTMLDivElement
-      if (textContent) {
-        rename(textContent)
-      }
-    },
-    [rename],
-  )
-
-export const usePlayerActions = (player: PlayerData, onChange: (data: PlayerData) => void) => {
-  const rename = useCallback(
-    (name: string) => {
-      onChange({ ...player, name })
-    },
-    [onChange, player],
-  )
-  const updateScore = useCallback(
-    (amt: number) => {
-      onChange({ ...player, score: player.score + amt })
-    },
-    [onChange, player],
-  )
-  const decrement = useCallback(() => updateScore(-1), [updateScore])
-  const increment = useCallback(() => updateScore(1), [updateScore])
-
-  return useMemo(() => ({ decrement, increment, rename }), [decrement, increment, rename])
 }
 
 export const useKeeperActions = (dispatch: React.Dispatch<KeeperAction>) => {

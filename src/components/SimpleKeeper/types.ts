@@ -1,8 +1,5 @@
-export interface PlayerData {
-  id: number
-  name: string
-  score: number
-}
+import type { PlayerData } from './Player/types'
+import { mockPlayerData } from './Player/types'
 
 export interface KeeperState {
   players: PlayerData[]
@@ -11,16 +8,6 @@ export interface KeeperState {
 // ============================================================================
 // MOCKS
 // ============================================================================
-
-export function mockPlayerData(overrides: Partial<PlayerData> = {}): PlayerData {
-  return {
-    id: 3,
-    name: 'Harold Ballz',
-    score: 69,
-    ...overrides,
-  }
-}
-
 export function mockPlayers(num: number): PlayerData[] {
   const players = []
   for (let i = 1; i <= num; i++) {

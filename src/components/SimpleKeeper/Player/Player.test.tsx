@@ -2,6 +2,7 @@ import type { PlayerProps } from './Player'
 
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
+
 import { mockPlayerData } from './types'
 import Player from './Player'
 
