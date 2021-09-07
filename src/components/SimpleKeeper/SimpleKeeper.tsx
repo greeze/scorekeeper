@@ -11,7 +11,7 @@ export default memo(function SimpleKeeper() {
 
   const columns = useMemo(() => {
     const min = (n: number) => Math.min(n, players.length)
-    return { xs: min(2), md: min(3), lg: min(4) }
+    return { xs: min(1), sm: min(2), md: min(3), lg: min(4) }
   }, [players.length])
 
   return (
