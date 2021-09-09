@@ -29,7 +29,6 @@ describe('<Player>', () => {
   it('increments player score when clicking increment', () => {
     render(<Player {...props} />)
     const btn = screen.getByTestId('increment-score')
-    const btn10 = screen.getByTestId('increment-score-10')
 
     fireEvent.click(btn)
     expect(props.onChange).toHaveBeenCalledWith(
@@ -37,31 +36,16 @@ describe('<Player>', () => {
         score: props.player.score + 1,
       }),
     )
-
-    fireEvent.click(btn10)
-    expect(props.onChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        score: props.player.score + 10,
-      }),
-    )
   })
 
   it('decrements player score when clicking decrement', () => {
     render(<Player {...props} />)
     const btn = screen.getByTestId('decrement-score')
-    const btn10 = screen.getByTestId('decrement-score-10')
 
     fireEvent.click(btn)
     expect(props.onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         score: props.player.score - 1,
-      }),
-    )
-
-    fireEvent.click(btn10)
-    expect(props.onChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        score: props.player.score - 10,
       }),
     )
   })

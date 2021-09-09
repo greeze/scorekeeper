@@ -1,9 +1,10 @@
 import type { PlayerData } from './types'
 
 import React, { memo } from 'react'
-import { Button, ButtonGroup, Card, Divider, Stack, Typography } from '@mui/material'
+import { Button, Card, Divider, Stack, Typography } from '@mui/material'
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
 import { useHandleEnterKey, useHandleFocus, useHandleBlur, usePlayerActions } from './hooks'
+import SplitButton from '../SplitButton/SplitButton'
 
 export interface PlayerProps {
   player: PlayerData
@@ -15,6 +16,7 @@ export default memo(function PlayerColumn({ onChange = () => null, player }: Pla
   const selectOnFocus = useHandleFocus()
   const blurOnEnterKey = useHandleEnterKey()
   const updateNameOnBlur = useHandleBlur(rename)
+  const valueOptions = [5, 10, 100]
 
   return (
     <Card>
@@ -37,20 +39,31 @@ export default memo(function PlayerColumn({ onChange = () => null, player }: Pla
         <Typography data-testid='player-score' variant='h3'>
           {player.score}
         </Typography>
-        <ButtonGroup fullWidth size='large' variant='contained'>
-          <Button data-testid='decrement-score' onClick={() => addScore(-1)}>
+        <Stack
+          alignItems='center'
+          direction='row'
+          divider={<Divider orientation='vertical' flexItem />}
+          justifyContent='center'
+          spacing={1}
+          width='100%'
+        >
+          <Button data-testid='decrement-score' onClick={() => addScore(-1)} variant='contained'>
             <RemoveCircleRounded /> 1
           </Button>
-          <Button data-testid='decrement-score-10' onClick={() => addScore(-10)}>
-            <RemoveCircleRounded /> 10
-          </Button>
-          <Button data-testid='increment-score-10' onClick={() => addScore(10)}>
-            <AddCircleRounded /> 10
-          </Button>
-          <Button data-testid='increment-score' onClick={() => addScore(1)}>
+          <SplitButton
+            icon={<RemoveCircleRounded />}
+            onClick={(index) => addScore(-valueOptions[index])}
+            options={valueOptions}
+          />
+          <SplitButton
+            icon={<AddCircleRounded />}
+            onClick={(index) => addScore(valueOptions[index])}
+            options={valueOptions}
+          />
+          <Button data-testid='increment-score' onClick={() => addScore(1)} variant='contained'>
             <AddCircleRounded /> 1
           </Button>
-        </ButtonGroup>
+        </Stack>
       </Stack>
     </Card>
   )
