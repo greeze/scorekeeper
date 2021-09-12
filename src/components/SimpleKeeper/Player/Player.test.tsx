@@ -9,6 +9,8 @@ import Player from './Player'
 const props: PlayerProps = {
   player: mockPlayerData(),
   onChange: jest.fn(),
+  selectedIndex: 1,
+  valueOptions: [5, 10, 100],
 }
 
 describe('<Player>', () => {
