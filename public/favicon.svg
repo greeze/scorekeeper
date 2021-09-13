@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="160" height="160"><svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="160" height="160" version="1.1" viewBox="0 0 160 159.99999" id="SvgjsSvg1011" sodipodi:docname="simplekeeper_icon.svg" inkscape:version="1.0.2 (e86c8708, 2021-01-15)">
+  <defs id="SvgjsDefs1010">
+    <filter style="color-interpolation-filters:sRGB" inkscape:label="Drop Shadow" id="SvgjsFilter1009">
+      <feFlood flood-opacity="0.960784" flood-color="rgb(0,0,0)" result="flood" id="SvgjsFeFlood1008"></feFlood>
+      <feComposite in="flood" in2="SourceGraphic" operator="out" result="composite1" id="SvgjsFeComposite1007"></feComposite>
+      <feGaussianBlur in="composite1" stdDeviation="2" result="blur" id="SvgjsFeGaussianBlur1006"></feGaussianBlur>
+      <feOffset dx="2" dy="2" result="offset" id="SvgjsFeOffset1005"></feOffset>
+      <feComposite in="offset" in2="SourceGraphic" operator="in" result="composite2" id="SvgjsFeComposite1004"></feComposite>
+    </filter>
+  </defs>
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1792" inkscape:window-height="1017" id="SvgjsSodipodi:namedview1003" showgrid="false" fit-margin-top="0" fit-margin-left="0" fit-margin-right="0" fit-margin-bottom="0" inkscape:zoom="1.1009789" inkscape:cx="83.335202" inkscape:cy="129.46778" inkscape:window-x="0" inkscape:window-y="25" inkscape:window-maximized="1" inkscape:current-layer="svg1316" inkscape:document-rotation="0"></sodipodi:namedview>
+  <title id="SvgjsTitle1002">tally marks</title>
+  <metadata id="SvgjsMetadata1001">
+    <rdf:rdf>
+      <cc:work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"></dc:type>
+        <dc:title>tally marks</dc:title>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by/4.0/"></cc:license>
+        <dc:creator>
+          <cc:agent>
+            <dc:title>Magicon</dc:title>
+          </cc:agent>
+        </dc:creator>
+        <dc:publisher>
+          <cc:agent>
+            <dc:title>Noun Project</dc:title>
+          </cc:agent>
+        </dc:publisher>
+        <dc:description>tally marks by Magicon from the Noun Project</dc:description>
+      </cc:work>
+      <cc:license rdf:about="http://creativecommons.org/licenses/by/4.0/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"></cc:permits>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"></cc:permits>
+        <cc:requires rdf:resource="http://creativecommons.org/ns#Notice"></cc:requires>
+        <cc:requires rdf:resource="http://creativecommons.org/ns#Attribution"></cc:requires>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"></cc:permits>
+      </cc:license>
+    </rdf:rdf>
+  </metadata>
+  <path d="m 25.027428,33.698688 c 0.28858,24.84696 0.53139,29.14207 0.37541,37.33744 -3.8999,0.24345 -5.35888,0.25496 -10.3883,0.64284 -3.08537,0.23795 -9.1901903,0.40282 -11.3566803,2.62448 -2.83709001,2.90903 2.35995,8.79462 3.96494,11.19731 3.0953403,4.63386 6.3308203,6.47982 17.4098503,6.3837 -0.0976,5.53183 -0.25378,9.391712 -0.32228,18.524002 -0.11324,15.10042 5.12948,32.3434 9.96487,21.26687 4.53381,-10.38544 6.125,-25.0535 7.6608,-40.864292 4.9258,-0.48979 8.84893,-0.8503 13.2323,-1.39366 -0.1063,5.82663 -0.29615,10.682752 -0.37541,20.989232 -0.1162,15.10042 5.15914,32.35661 9.96487,21.26686 4.83003,-11.1462 6.41301,-27.03024 7.92844,-44.087412 4.3455,-0.54171 8.6792,-1.11083 13.0179,-1.71425 -0.11323,6.14715 -0.33174,12.44295 -0.42858,24.534302 -0.12092,15.10042 5.1402,32.37197 9.90984,21.26686 5.206312,-12.121 6.873972,-29.86888 8.356892,-48.478992 4.33012,-0.7097 8.55413,-1.47253 12.69558,-2.25079 -0.12688,6.40943 -0.35418,14.42113 -0.48168,29.467602 -0.12785,15.10042 5.18522,32.39127 9.90984,21.26687 5.71872,-13.46492 7.35743,-33.405382 8.73244,-54.053362 6.47983,-1.54452 12.63413,-2.35441 17.67892,-4.55489 11.92161,-5.19951 -0.73371,-10.26324 -16.92817,-10.3883 0.78098,-25.68276 -0.20493,-26.31345 -7.33849,-34.49917 -1.97597,-2.26729 -5.40248,-4.33584 -8.63524,-2.95891 -3.23252,1.37712 -3.17878,6.27508 -3.1503,8.47695 0.23391,18.0852 0.43544,24.41602 0.42858,29.94606 -5.10518,0.44227 -7.7362,0.65656 -11.83871,1.01825 0.0652,-1.42625 0.15909,-2.87822 0.21433,-4.28546 0.98712,-25.18571 -0.27922,-23.87145 -7.499652,-32.1951 -1.97075,-2.2718 -5.53647,-4.33585 -8.76888,-2.95891 -3.23241,1.37694 -3.04628,6.27508 -3.01648,8.47695 0.28051,20.72694 0.48168,26.47638 0.42855,32.62211 -4.86505,0.44055 -8.70135,0.77312 -11.94663,1.07138 0.11821,-2.35195 0.23195,-4.71426 0.32228,-7.01797 0.98791,-25.18571 -0.27922,-23.87145 -7.49965,-32.1951 -1.97074,-2.2718 -5.26883,-4.33584 -8.49695,-2.95748 -3.22805,1.37855 -3.26636,6.27365 -3.23545,8.47552 0.32571,23.20753 0.54682,28.17013 0.42858,35.35604 -3.04963,0.22802 -7.50501,0.50398 -12.10242,0.804 0.17495,-3.19193 0.30652,-6.36834 0.42858,-9.4814 0.98538,-25.13247 -0.22697,-23.8761 -7.44676,-32.19511 -1.98358,-2.28555 -5.49181,-3.81307 -8.46908,-3.27075 -3.75519,0.68418 -3.37163,5.04658 -3.32825,8.78211 z" id="SvgjsPath1000" style="stroke-width:3.5733"></path>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: invert(100%); } }
+</style></svg>
