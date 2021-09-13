@@ -1,6 +1,6 @@
 {
-  "short_name": "SimpleKeeper",
-  "name": "SimpleKeeper",
+  "short_name": "Simplekeeper",
+  "name": "Simplekeeper",
   "icons": [
     {
       "src": "favicon.ico",
@@ -14,17 +14,17 @@
     },
     {
       "src": "android-chrome-512x512.png",
-      "sizes": "512x512",
+      "sizes": "256x256",
       "type": "image/png"
     },
     {
-      "src": "simplekeeper.svg",
-      "type": "image/svg",
-      "sizes": "any"
+      "src": "simplekeeper.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#7F7F7F",
+  "background_color": "#7F7F7F"
 }
