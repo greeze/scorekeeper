@@ -1,7 +1,9 @@
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { PlayerData } from './Player/types'
+
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AppBar, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material'
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
+import isEqual from 'lodash/isEqual'
 
 import { useKeeperActions } from './hooks/useKeeperActions'
 import { useKeeperReducer } from './hooks/useKeeperReducer'
@@ -22,7 +24,7 @@ export default memo(function SimpleKeeper() {
   const columns = useColumns(players)
 
   const { addPlayer, removePlayer, updateKeeperState, updatePlayer } = useKeeperActions(dispatch)
-  const { broadcastKeeperState } = useRealtimeSync(keeperState, updateKeeperState)
+  const { broadcastKeeperState, lastUpdateRef } = useRealtimeSync(keeperState, updateKeeperState)
 
   const handleChangeSelectedIndex = useCallback(
     (newIndex: number) => {
@@ -33,11 +35,13 @@ export default memo(function SimpleKeeper() {
 
   useEffect(() => {
     if (isMountedRef.current) {
-      broadcastKeeperState(keeperState)
+      if (!isEqual(keeperState, lastUpdateRef.current)) {
+        broadcastKeeperState(keeperState)
+      }
     } else {
       isMountedRef.current = true
     }
-  }, [broadcastKeeperState, keeperState])
+  }, [broadcastKeeperState, keeperState, lastUpdateRef])
 
   return (
     <Paper>
