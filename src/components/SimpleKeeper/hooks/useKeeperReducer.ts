@@ -52,6 +52,10 @@ export const useKeeperReducer = () => {
         }
       }
 
+      case 'update_state': {
+        return action.payload
+      }
+
       default: {
         return keeperState
       }

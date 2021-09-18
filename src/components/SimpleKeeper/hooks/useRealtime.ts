@@ -1,8 +1,9 @@
 import type { Types as AblyTypes } from 'ably/promises'
-import type { PlayerData } from '../Player/types'
+import type { KeeperState } from '../types'
 
 import Ably from 'ably/promises'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import isEqual from 'lodash/isEqual'
 
 let realtime: Ably.Realtime | null = null
 try {
@@ -11,18 +12,51 @@ try {
   }
 } catch (err: unknown) {}
 
-export const useRealtime = (channelName: string = 'SimpleKeeper') => {
+export const useRealtimeSync = (
+  keeperState: KeeperState,
+  updateCallback: (data: KeeperState) => void,
+  channelName: string = 'SimpleKeeper',
+) => {
+  const isSubscribedRef = useRef(false)
+  const keeperStateRef = useRef(keeperState)
   const channel = realtime?.channels.get(channelName)
-  const [messages, updateMessages] = useState<AblyTypes.Message[]>([])
+
+  const broadcastKeeperState = useCallback(
+    (data: KeeperState) => {
+      channel?.publish({ name: 'updateKeeperState', data })
+    },
+    [channel],
+  )
+
+  useEffect(() => {
+    keeperStateRef.current = keeperState
+  }, [keeperState])
 
   useEffect(() => {
     async function subscribe() {
-      if (!channel) {
-        return
-      }
-      await channel.subscribe((message: AblyTypes.Message) => {
-        updateMessages([...messages, message.data])
+      await channel?.subscribe((message: AblyTypes.Message) => {
+        if (message.connectionId !== realtime?.connection.id) {
+          const { name } = message
+          switch (name) {
+            case 'subscribed': {
+              broadcastKeeperState(keeperStateRef.current)
+              break
+            }
+
+            case 'updateKeeperState': {
+              const newKeeperState: KeeperState = message.data
+              if (!isEqual(newKeeperState, keeperStateRef.current)) {
+                updateCallback(message.data)
+              }
+              break
+            }
+          }
+        }
       })
+      if (!isSubscribedRef.current) {
+        isSubscribedRef.current = true
+        channel?.publish({ name: 'subscribed' })
+      }
     }
 
     subscribe()
@@ -30,17 +64,7 @@ export const useRealtime = (channelName: string = 'SimpleKeeper') => {
     return function cleanup() {
       channel?.unsubscribe()
     }
-  }, [channel, messages])
+  }, [broadcastKeeperState, channel, updateCallback])
 
-  const broadcastPlayer = useCallback(
-    (data: PlayerData) => {
-      if (!channel) {
-        return
-      }
-      channel.publish({ name: 'updatePlayer', data })
-    },
-    [channel],
-  )
-
-  return { broadcastPlayer, messages }
+  return { broadcastKeeperState }
 }
