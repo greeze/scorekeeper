@@ -19,6 +19,7 @@ export const useRealtimeSync = (
 ) => {
   const isSubscribedRef = useRef(false)
   const keeperStateRef = useRef(keeperState)
+  const lastUpdateRef = useRef(keeperState)
   const channel = realtime?.channels.get(channelName)
 
   const broadcastKeeperState = useCallback(
@@ -46,6 +47,7 @@ export const useRealtimeSync = (
             case 'updateKeeperState': {
               const newKeeperState: KeeperState = message.data
               if (!isEqual(newKeeperState, keeperStateRef.current)) {
+                lastUpdateRef.current = message.data
                 updateCallback(message.data)
               }
               break
@@ -66,5 +68,5 @@ export const useRealtimeSync = (
     }
   }, [broadcastKeeperState, channel, updateCallback])
 
-  return { broadcastKeeperState }
+  return { broadcastKeeperState, lastUpdateRef }
 }
