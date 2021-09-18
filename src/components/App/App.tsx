@@ -1,27 +1,27 @@
 import React from 'react'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { Container, CssBaseline, useMediaQuery } from '@mui/material'
-
+import { useHistory, useLocation } from 'react-router'
+import { ThemeProvider } from '@mui/material/styles'
+import { Container, CssBaseline } from '@mui/material'
 import SimpleKeeper from 'components/SimpleKeeper'
+import { useAppTheme } from 'common/hooks/useAppTheme'
+import { getRandomString } from 'common/utils/getRandomString'
 
 function App() {
-  const prefersLightMode = useMediaQuery('(prefers-color-scheme: light)')
+  const theme = useAppTheme()
+  const history = useHistory()
+  const search = useLocation().search
+  const gameName = new URLSearchParams(search).get('game')
 
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: prefersLightMode ? 'light' : 'light', // TODO: Darkmode toggle button. Stick with 'light' for now.
-        },
-      }),
-    [prefersLightMode],
-  )
+  if (!gameName) {
+    history.replace({ search: `?game=${getRandomString()}` })
+    return null
+  }
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container>
-        <SimpleKeeper />
+        <SimpleKeeper gameName={gameName.toLowerCase()} />
       </Container>
     </ThemeProvider>
   )
