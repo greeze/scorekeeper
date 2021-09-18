@@ -3,7 +3,8 @@ import type { PlayerData } from './types'
 import React, { memo } from 'react'
 import { Button, Card, Divider, Grid, Stack, Typography } from '@mui/material'
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
-import { useHandleEnterKey, useHandleFocus, useHandleBlur, usePlayerActions } from './hooks'
+import { useContentEditableHandlers } from 'common/hooks/useContentEditableHandlers'
+import { usePlayerActions } from './hooks'
 import SplitButton from '../SplitButton/SplitButton'
 
 export interface PlayerProps {
@@ -22,9 +23,7 @@ export default memo(function PlayerColumn({
   valueOptions,
 }: PlayerProps) {
   const { rename, addScore } = usePlayerActions(player, onChange)
-  const selectOnFocus = useHandleFocus()
-  const blurOnEnterKey = useHandleEnterKey()
-  const updateNameOnBlur = useHandleBlur(rename)
+  const { handleBlur, handleFocus, handleKeyDown, handleKeyUp } = useContentEditableHandlers(rename)
 
   return (
     <Card>
@@ -40,10 +39,10 @@ export default memo(function PlayerColumn({
           data-testid='player-name'
           maxWidth='100%'
           noWrap
-          onBlur={updateNameOnBlur}
-          onFocus={selectOnFocus}
-          onKeyDown={blurOnEnterKey}
-          onKeyUp={blurOnEnterKey}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+          onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
           px={1}
           suppressContentEditableWarning
           variant='h6'

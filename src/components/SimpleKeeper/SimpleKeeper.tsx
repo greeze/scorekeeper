@@ -10,13 +10,17 @@ import { useKeeperReducer } from './hooks/useKeeperReducer'
 import { useRealtimeSync } from './hooks/useRealtime'
 import Player from './Player'
 
+interface SimpleKeeperProps {
+  gameName: string
+}
+
 const useColumns = (players: PlayerData[]) =>
   useMemo(() => {
     const min = (n: number) => Math.min(n, players.length)
     return { xs: min(1), sm: min(2), md: min(3), lg: min(4) }
   }, [players.length])
 
-export default memo(function SimpleKeeper() {
+export default memo(function SimpleKeeper({ gameName }: SimpleKeeperProps) {
   const isMountedRef = useRef(false)
   const [selectedIndex, setSelectedIndex] = useState(1)
   const [keeperState, dispatch] = useKeeperReducer()
@@ -24,7 +28,7 @@ export default memo(function SimpleKeeper() {
   const columns = useColumns(players)
 
   const { addPlayer, removePlayer, updateKeeperState, updatePlayer } = useKeeperActions(dispatch)
-  const { broadcastKeeperState, lastUpdateRef } = useRealtimeSync(keeperState, updateKeeperState)
+  const { broadcastKeeperState, lastUpdateRef } = useRealtimeSync(keeperState, updateKeeperState, gameName)
 
   const handleChangeSelectedIndex = useCallback(
     (newIndex: number) => {
@@ -51,7 +55,9 @@ export default memo(function SimpleKeeper() {
             <IconButton color='inherit' onClick={removePlayer}>
               <RemoveCircleRounded />
             </IconButton>
-            <Typography variant='h6'>Players</Typography>
+            <Typography sx={{ textTransform: 'capitalize' }} variant='h6'>
+              {gameName}
+            </Typography>
             <IconButton color='inherit' onClick={addPlayer}>
               <AddCircleRounded />
             </IconButton>

@@ -4,8 +4,9 @@ import SimpleKeeper from './SimpleKeeper'
 
 describe('<SimpleKeeper>', () => {
   it('renders players header', () => {
-    render(<SimpleKeeper />)
-    const headerElement = screen.getByText(/players/i)
+    const gameName = 'tootyfartz'
+    render(<SimpleKeeper gameName={gameName} />)
+    const headerElement = screen.getByText(gameName)
     expect(headerElement).toBeInTheDocument()
   })
 })
