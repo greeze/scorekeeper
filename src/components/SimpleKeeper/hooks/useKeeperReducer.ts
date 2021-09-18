@@ -1,9 +1,7 @@
-import type { KeeperState } from './types'
-import type { PlayerData } from './Player/types'
-
-import { useMemo, useReducer } from 'react'
-
-type KeeperAction = { type: 'add_player' } | { type: 'remove_player' } | { type: 'update_player'; payload: PlayerData }
+import type { KeeperState } from '../types'
+import type { PlayerData } from '../Player/types'
+import type { KeeperAction } from './types'
+import { useReducer } from 'react'
 
 const createPlayers = (num: number): PlayerData[] => {
   const players = []
@@ -15,17 +13,6 @@ const createPlayers = (num: number): PlayerData[] => {
     })
   }
   return players
-}
-
-export const useKeeperActions = (dispatch: React.Dispatch<KeeperAction>) => {
-  return useMemo(
-    () => ({
-      addPlayer: () => dispatch({ type: 'add_player' }),
-      removePlayer: () => dispatch({ type: 'remove_player' }),
-      updatePlayer: (data: PlayerData) => dispatch({ type: 'update_player', payload: data }),
-    }),
-    [dispatch],
-  )
 }
 
 export const useKeeperReducer = () => {
@@ -63,6 +50,10 @@ export const useKeeperReducer = () => {
           ...keeperState,
           players,
         }
+      }
+
+      case 'update_state': {
+        return action.payload
       }
 
       default: {

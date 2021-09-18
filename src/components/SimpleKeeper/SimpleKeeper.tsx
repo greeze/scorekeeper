@@ -1,26 +1,43 @@
-import React, { memo, useCallback, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { PlayerData } from './Player/types'
 import { AppBar, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material'
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
 
-import { useKeeperActions, useKeeperReducer } from './hooks'
+import { useKeeperActions } from './hooks/useKeeperActions'
+import { useKeeperReducer } from './hooks/useKeeperReducer'
+import { useRealtimeSync } from './hooks/useRealtime'
 import Player from './Player'
 
+const useColumns = (players: PlayerData[]) =>
+  useMemo(() => {
+    const min = (n: number) => Math.min(n, players.length)
+    return { xs: min(1), sm: min(2), md: min(3), lg: min(4) }
+  }, [players.length])
+
 export default memo(function SimpleKeeper() {
-  const [{ players }, dispatch] = useKeeperReducer()
-  const { addPlayer, removePlayer, updatePlayer } = useKeeperActions(dispatch)
+  const isMountedRef = useRef(false)
   const [selectedIndex, setSelectedIndex] = useState(1)
+  const [keeperState, dispatch] = useKeeperReducer()
+  const { players } = keeperState
+  const columns = useColumns(players)
+
+  const { addPlayer, removePlayer, updateKeeperState, updatePlayer } = useKeeperActions(dispatch)
+  const { broadcastKeeperState } = useRealtimeSync(keeperState, updateKeeperState)
+
   const handleChangeSelectedIndex = useCallback(
     (newIndex: number) => {
       setSelectedIndex(newIndex)
     },
     [setSelectedIndex],
   )
-  const valueOptions = useRef([5, 10, 100])
 
-  const columns = useMemo(() => {
-    const min = (n: number) => Math.min(n, players.length)
-    return { xs: min(1), sm: min(2), md: min(3), lg: min(4) }
-  }, [players.length])
+  useEffect(() => {
+    if (isMountedRef.current) {
+      broadcastKeeperState(keeperState)
+    } else {
+      isMountedRef.current = true
+    }
+  }, [broadcastKeeperState, keeperState])
 
   return (
     <Paper>
@@ -45,7 +62,7 @@ export default memo(function SimpleKeeper() {
               onChange={updatePlayer}
               onSelect={handleChangeSelectedIndex}
               selectedIndex={selectedIndex}
-              valueOptions={valueOptions.current}
+              valueOptions={[5, 10, 100]}
             />
           </Grid>
         ))}
