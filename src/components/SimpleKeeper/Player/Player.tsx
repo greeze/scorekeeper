@@ -1,11 +1,11 @@
-import type { PlayerData } from './types'
+import type { PlayerData } from 'components/SimpleKeeper/Player/types'
 
 import React, { memo } from 'react'
 import { Button, Card, Divider, Grid, Stack, Typography } from '@mui/material'
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
 import { useContentEditableHandlers } from 'common/hooks/useContentEditableHandlers'
-import { usePlayerActions } from './hooks'
-import SplitButton from '../SplitButton/SplitButton'
+import { usePlayerActions } from 'components/SimpleKeeper/Player/hooks'
+import SplitButton from 'components/SimpleKeeper/SplitButton'
 
 export interface PlayerProps {
   player: PlayerData

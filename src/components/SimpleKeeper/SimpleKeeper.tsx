@@ -1,14 +1,13 @@
-import type { PlayerData } from './Player/types'
+import type { PlayerData } from 'components/SimpleKeeper/Player/types'
 
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useMemo, useState } from 'react'
 import { AppBar, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material'
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
-import isEqual from 'lodash/isEqual'
 
-import { useKeeperActions } from './hooks/useKeeperActions'
-import { useKeeperReducer } from './hooks/useKeeperReducer'
-import { useRealtimeSync } from './hooks/useRealtime'
-import Player from './Player'
+import { useKeeperActions } from 'components/SimpleKeeper/hooks/useKeeperActions'
+import { useKeeperReducer } from 'components/SimpleKeeper/hooks/useKeeperReducer'
+import { useRealtimeSync } from 'components/SimpleKeeper/hooks/useRealtime'
+import Player from 'components/SimpleKeeper/Player'
 
 interface SimpleKeeperProps {
   gameName: string
@@ -21,14 +20,13 @@ const useColumns = (players: PlayerData[]) =>
   }, [players.length])
 
 export default memo(function SimpleKeeper({ gameName }: SimpleKeeperProps) {
-  const isMountedRef = useRef(false)
   const [selectedIndex, setSelectedIndex] = useState(1)
   const [keeperState, dispatch] = useKeeperReducer()
   const { players } = keeperState
   const columns = useColumns(players)
 
   const { addPlayer, removePlayer, updateKeeperState, updatePlayer } = useKeeperActions(dispatch)
-  const { broadcastKeeperState, lastUpdateRef } = useRealtimeSync(keeperState, updateKeeperState, gameName)
+  useRealtimeSync(keeperState, updateKeeperState, gameName)
 
   const handleChangeSelectedIndex = useCallback(
     (newIndex: number) => {
@@ -36,16 +34,6 @@ export default memo(function SimpleKeeper({ gameName }: SimpleKeeperProps) {
     },
     [setSelectedIndex],
   )
-
-  useEffect(() => {
-    if (isMountedRef.current) {
-      if (!isEqual(keeperState, lastUpdateRef.current)) {
-        broadcastKeeperState(keeperState)
-      }
-    } else {
-      isMountedRef.current = true
-    }
-  }, [broadcastKeeperState, keeperState, lastUpdateRef])
 
   return (
     <Paper>

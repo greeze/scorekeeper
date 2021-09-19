@@ -1,5 +1,5 @@
 import type { Types as AblyTypes } from 'ably/promises'
-import type { KeeperState } from '../types'
+import type { KeeperState } from 'components/SimpleKeeper/types'
 
 import Ably from 'ably/promises'
 import { useCallback, useEffect, useRef } from 'react'
@@ -17,6 +17,7 @@ export const useRealtimeSync = (
   updateCallback: (data: KeeperState) => void,
   channelName: string = 'SimpleKeeper',
 ) => {
+  const isMountedRef = useRef(false)
   const isSubscribedRef = useRef(false)
   const keeperStateRef = useRef(keeperState)
   const lastUpdateRef = useRef(keeperState)
@@ -68,5 +69,13 @@ export const useRealtimeSync = (
     }
   }, [broadcastKeeperState, channel, updateCallback])
 
-  return { broadcastKeeperState, lastUpdateRef }
+  useEffect(() => {
+    if (isMountedRef.current) {
+      if (!isEqual(keeperState, lastUpdateRef.current)) {
+        broadcastKeeperState(keeperState)
+      }
+    } else {
+      isMountedRef.current = true
+    }
+  }, [broadcastKeeperState, keeperState, lastUpdateRef])
 }

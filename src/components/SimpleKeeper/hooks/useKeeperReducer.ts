@@ -1,6 +1,6 @@
-import type { KeeperState } from '../types'
-import type { PlayerData } from '../Player/types'
-import type { KeeperAction } from './types'
+import type { KeeperState } from 'components/SimpleKeeper/types'
+import type { PlayerData } from 'components/SimpleKeeper/Player/types'
+import type { KeeperAction } from 'components/SimpleKeeper/hooks/types'
 import { useReducer } from 'react'
 
 const createPlayers = (num: number): PlayerData[] => {

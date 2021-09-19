@@ -1,10 +1,10 @@
-import type { PlayerProps } from './Player'
+import type { PlayerProps } from 'components/SimpleKeeper/Player'
 
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-import { mockPlayerData } from './types'
-import Player from './Player'
+import { mockPlayerData } from 'components/SimpleKeeper/Player/types'
+import Player from 'components/SimpleKeeper/Player'
 
 const props: PlayerProps = {
   player: mockPlayerData(),

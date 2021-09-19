@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import SimpleKeeper from './SimpleKeeper'
+import SimpleKeeper from 'components/SimpleKeeper'
 
 describe('<SimpleKeeper>', () => {
   it('renders players header', () => {

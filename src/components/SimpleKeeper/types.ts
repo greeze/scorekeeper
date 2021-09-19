@@ -1,5 +1,5 @@
-import type { PlayerData } from './Player/types'
-import { mockPlayerData } from './Player/types'
+import type { PlayerData } from 'components/SimpleKeeper/Player/types'
+import { mockPlayerData } from 'components/SimpleKeeper/Player/types'
 
 export interface KeeperState {
   players: PlayerData[]
