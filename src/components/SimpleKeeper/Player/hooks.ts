@@ -1,4 +1,4 @@
-import type { PlayerData } from './types'
+import type { PlayerData } from 'components/SimpleKeeper/Player/types'
 
 import { useCallback, useMemo } from 'react'
 

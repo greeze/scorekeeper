@@ -1,5 +1,5 @@
-import type { KeeperState } from '../types'
-import type { PlayerData } from '../Player/types'
+import type { KeeperState } from 'components/SimpleKeeper/types'
+import type { PlayerData } from 'components/SimpleKeeper/Player/types'
 
 export type KeeperAction =
   | { type: 'add_player' }

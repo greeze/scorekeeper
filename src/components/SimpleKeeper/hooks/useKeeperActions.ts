@@ -1,6 +1,6 @@
-import type { KeeperAction } from './types'
-import type { KeeperState } from '../types'
-import type { PlayerData } from '../Player/types'
+import type { KeeperAction } from 'components/SimpleKeeper/hooks/types'
+import type { KeeperState } from 'components/SimpleKeeper/types'
+import type { PlayerData } from 'components/SimpleKeeper/Player/types'
 import { useMemo } from 'react'
 
 export const useKeeperActions = (dispatch: React.Dispatch<KeeperAction>) => {
