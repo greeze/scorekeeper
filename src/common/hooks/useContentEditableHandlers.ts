@@ -4,7 +4,8 @@ import { useCallback } from 'react'
 
 export const useContentEditableHandlers = (onChange: (text: string) => void) => {
   const handleFocus = useCallback((e: FocusEvent) => {
-    window.getSelection()?.selectAllChildren(e.target)
+    // Needs to be inside `requestAnimationFrame` because Safari.
+    requestAnimationFrame(() => window.getSelection()?.selectAllChildren(e.target))
   }, [])
 
   const handleBlur = useCallback(
