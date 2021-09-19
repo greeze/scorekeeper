@@ -7,6 +7,7 @@ import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
 import { useKeeperActions } from 'components/SimpleKeeper/hooks/useKeeperActions'
 import { useKeeperReducer } from 'components/SimpleKeeper/hooks/useKeeperReducer'
 import { useRealtimeSync } from 'components/SimpleKeeper/hooks/useRealtime'
+import ShareButton from 'components/SimpleKeeper/ShareButton'
 import Player from 'components/SimpleKeeper/Player'
 
 interface SimpleKeeperProps {
@@ -40,13 +41,14 @@ export default memo(function SimpleKeeper({ gameName }: SimpleKeeperProps) {
       <AppBar position='sticky' title='Players'>
         <Toolbar>
           <Grid alignContent='stretch' alignItems='center' container justifyContent='space-between'>
-            <IconButton color='inherit' onClick={removePlayer}>
+            <IconButton color='inherit' onClick={removePlayer} title='Remove Player'>
               <RemoveCircleRounded />
             </IconButton>
             <Typography sx={{ textTransform: 'capitalize' }} variant='h6'>
               {gameName}
+              <ShareButton />
             </Typography>
-            <IconButton color='inherit' onClick={addPlayer}>
+            <IconButton color='inherit' onClick={addPlayer} title='Add Player'>
               <AddCircleRounded />
             </IconButton>
           </Grid>
