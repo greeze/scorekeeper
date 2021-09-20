@@ -1,28 +1,34 @@
-import React from 'react'
-import { useHistory, useLocation } from 'react-router'
-import { ThemeProvider } from '@mui/material/styles'
-import { Container, CssBaseline } from '@mui/material'
+import React, { useEffect } from 'react'
+import { CircularProgress, Container, CssBaseline, ThemeProvider } from '@mui/material'
+
+import { useAppDispatch, useAppSelector, useAppTheme } from 'common/hooks'
+import { getRandomString } from 'common/utils'
+import { selectors as gameSelectors, useActions as useGameActions } from 'features/game'
+import { selectors as routerSelectors, useActions as useRouterActions } from 'features/router'
+import Realtime from 'components/Realtime'
 import SimpleKeeper from 'components/SimpleKeeper'
-import { useAppTheme } from 'common/hooks/useAppTheme'
-import { getRandomString } from 'common/utils/getRandomString'
 
 function App() {
   const theme = useAppTheme()
-  const history = useHistory()
-  const search = useLocation().search
-  const gameName = new URLSearchParams(search).get('game')
+  const dispatch = useAppDispatch()
+  const routerActions = useRouterActions(dispatch)
+  const gameActions = useGameActions(dispatch)
+  const gameName = useAppSelector(gameSelectors.selectName)
+  const gameNameParam = useAppSelector(routerSelectors.selectGameNameParam)
 
-  if (!gameName) {
-    history.replace({ search: `?game=${getRandomString()}` })
-    return null
-  }
+  useEffect(() => {
+    if (gameNameParam) {
+      gameActions.changeName(gameNameParam)
+    } else {
+      routerActions.replace({ search: `?game=${getRandomString()}` })
+    }
+  }, [gameActions, gameNameParam, routerActions])
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container>
-        <SimpleKeeper gameName={gameName.toLowerCase()} />
-      </Container>
+      <Realtime />
+      <Container>{gameName ? <SimpleKeeper /> : <CircularProgress />}</Container>
     </ThemeProvider>
   )
 }

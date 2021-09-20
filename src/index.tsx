@@ -2,15 +2,23 @@ import '@fontsource/roboto'
 
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { ConnectedRouter } from 'connected-react-router'
+import { enablePatches } from '@reduxjs/toolkit/node_modules/immer'
+
+import { store, history } from 'features/app/store'
 import App from 'components/App'
 import reportWebVitals from 'reportWebVitals'
 
+enablePatches()
+
 ReactDOM.render(
   <StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <App />
+      </ConnectedRouter>
+    </Provider>
   </StrictMode>,
   document.getElementById('root'),
 )

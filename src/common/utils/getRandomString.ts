@@ -1,7 +1,10 @@
+import { titleCase } from 'common/utils/capitalizeString'
+import { getRandomInteger } from 'common/utils/getRandomInteger'
+
 const vowels = 'aeiou'
 const consonants = 'bcdfghjklmnpqrstvwxyz'
 
-const getCharacter = (characters: string) => characters.charAt(Math.floor(Math.random() * characters.length))
+const getCharacter = (characters: string) => characters.charAt(getRandomInteger(0, characters.length))
 
 export const getRandomString = (length = 8) => {
   let result = ''
@@ -11,4 +14,12 @@ export const getRandomString = (length = 8) => {
     getConsonant = !getConsonant
   }
   return result
+}
+
+export const getRandomWords = (num = 2, capitalize = true, length?: number) => {
+  let result = ''
+  for (let i = 0; i < num; i++) {
+    result += i > 0 ? ` ${getRandomString(length)}` : getRandomString(length)
+  }
+  return capitalize ? titleCase(result) : result
 }

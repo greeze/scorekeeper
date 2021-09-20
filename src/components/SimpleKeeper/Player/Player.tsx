@@ -1,29 +1,38 @@
-import type { PlayerData } from 'components/SimpleKeeper/Player/types'
+import type { PlayerData } from 'features/players'
 
-import React, { memo } from 'react'
+import React, { memo, useCallback } from 'react'
 import { Button, Card, Divider, Grid, Stack, Typography } from '@mui/material'
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
-import { useContentEditableHandlers } from 'common/hooks/useContentEditableHandlers'
-import { usePlayerActions } from 'components/SimpleKeeper/Player/hooks'
+
+import { useAppDispatch, useAppSelector, useContentEditableHandlers } from 'common/hooks'
+import {
+  constants as playersConstants,
+  selectors as playersSelectors,
+  useActions as usePlayersActions,
+} from 'features/players'
+import { useHandleAddScore, useHandleRename } from 'components/SimpleKeeper/Player/hooks'
 import SplitButton from 'components/SimpleKeeper/SplitButton'
 
 export interface PlayerProps {
   player: PlayerData
   onChange?: (data: PlayerData) => void
-  onSelect?: (index: number) => void
-  selectedIndex: number
-  valueOptions: number[]
 }
 
-export default memo(function PlayerColumn({
-  onChange = () => null,
-  onSelect = () => null,
-  player,
-  selectedIndex,
-  valueOptions,
-}: PlayerProps) {
-  const { rename, addScore } = usePlayerActions(player, onChange)
-  const { handleBlur, handleFocus, handleKeyDown, handleKeyUp } = useContentEditableHandlers(rename)
+export default memo(function PlayerColumn({ onChange = () => null, player }: PlayerProps) {
+  const dispatch = useAppDispatch()
+  const playerActions = usePlayersActions(dispatch)
+  const increment = useAppSelector(playersSelectors.selectIncrement)
+  const selectedIndex = useAppSelector(playersSelectors.selectIncrementIndex)
+  const handleAddScore = useHandleAddScore(player, onChange)
+  const handleRename = useHandleRename(player, onChange)
+  const { handleBlur, handleFocus, handleKeyDown, handleKeyUp } = useContentEditableHandlers(handleRename)
+
+  const handleSelectIncrement = useCallback(
+    (index: number) => {
+      playerActions.setIncrement(playersConstants.INCREMENTS[index])
+    },
+    [playerActions],
+  )
 
   return (
     <Card>
@@ -57,7 +66,7 @@ export default memo(function PlayerColumn({
             <Button
               data-testid='decrement-score'
               fullWidth
-              onClick={() => addScore(-1)}
+              onClick={() => handleAddScore(-1)}
               size='small'
               sx={{ borderRadius: '4px 0 0 4px', px: 0 }}
               variant='contained'
@@ -69,9 +78,9 @@ export default memo(function PlayerColumn({
             <SplitButton
               fullWidth
               icon={<RemoveCircleRounded />}
-              onClick={(index) => addScore(-valueOptions[index])}
-              onSelect={onSelect}
-              options={valueOptions}
+              onClick={() => handleAddScore(-increment)}
+              onSelect={handleSelectIncrement}
+              options={playersConstants.INCREMENTS}
               selectedIndex={selectedIndex}
               size='small'
               sx={{ px: 0 }}
@@ -81,9 +90,9 @@ export default memo(function PlayerColumn({
             <SplitButton
               fullWidth
               icon={<AddCircleRounded />}
-              onClick={(index) => addScore(valueOptions[index])}
-              onSelect={onSelect}
-              options={valueOptions}
+              onClick={() => handleAddScore(increment)}
+              onSelect={handleSelectIncrement}
+              options={playersConstants.INCREMENTS}
               selectedIndex={selectedIndex}
               size='small'
               sx={{ px: 0 }}
@@ -93,7 +102,7 @@ export default memo(function PlayerColumn({
             <Button
               data-testid='increment-score'
               fullWidth
-              onClick={() => addScore(1)}
+              onClick={() => handleAddScore(1)}
               size='small'
               sx={{ borderRadius: '0 4px 4px 0', px: 0 }}
               variant='contained'
