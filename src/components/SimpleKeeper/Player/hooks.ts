@@ -1,20 +1,19 @@
-import type { PlayerData } from 'components/SimpleKeeper/Player/types'
+import type { PlayerData } from 'features/players'
 
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 
-export const usePlayerActions = (player: PlayerData, onChange: (data: PlayerData) => void) => {
-  const rename = useCallback(
+export const useHandleRename = (player: PlayerData, onChange: (data: PlayerData) => void) =>
+  useCallback(
     (name: string) => {
       onChange({ ...player, name })
     },
     [onChange, player],
   )
-  const addScore = useCallback(
+
+export const useHandleAddScore = (player: PlayerData, onChange: (data: PlayerData) => void) =>
+  useCallback(
     (amt: number) => {
       onChange({ ...player, score: player.score + amt })
     },
     [onChange, player],
   )
-
-  return useMemo(() => ({ rename, addScore }), [rename, addScore])
-}
