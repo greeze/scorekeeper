@@ -1,6 +1,6 @@
 import type { RootState } from 'features/app/store'
 import { createSelector } from 'reselect'
-import { routerActions } from 'connected-react-router'
+import { routerActions as actions } from 'connected-react-router'
 
 const selectRouterState = ({ router }: RootState) => router
 
@@ -19,4 +19,4 @@ const selectors = {
   selectGameNameParam,
 }
 
-export { routerActions as actions, selectors }
+export { actions, selectors }

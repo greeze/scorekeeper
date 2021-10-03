@@ -52,6 +52,7 @@ export const useRealtimeSubscribe = (
   receivedCallback: (msg: AblyTypes.Message) => void,
 ) => {
   const [isSubscribed, setIsSubscribed] = useState(false)
+  const prevChannel = usePrevious(channel)
 
   const handleReceivedMessage = useCallback(
     (message: AblyTypes.Message) => {
@@ -61,7 +62,15 @@ export const useRealtimeSubscribe = (
   )
 
   useEffect(() => {
+    if (channel !== prevChannel) {
+      prevChannel?.unsubscribe()
+      setIsSubscribed(false)
+    }
+  }, [channel, prevChannel])
+
+  useEffect(() => {
     if (!channel) {
+      setIsSubscribed(false)
       return
     }
     const subscribe = async () => {
@@ -75,10 +84,7 @@ export const useRealtimeSubscribe = (
 
   useEffect(
     () => () => {
-      if (!channel) {
-        return
-      }
-      channel.unsubscribe()
+      channel?.unsubscribe()
       setIsSubscribed(false)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
