@@ -5,6 +5,7 @@ import { useMemo } from 'react'
 import { bindActionCreators } from '@reduxjs/toolkit'
 
 import { BroadcastActionType, operations as realtimeActions } from 'features/realtime'
+import { operations as routerActions } from 'features/router'
 import { actions, selectors } from './slice'
 
 const changeName =
@@ -12,9 +13,17 @@ const changeName =
   async (dispatch, getState) => {
     const currentName = selectors.selectName(getState())
     if (newName !== currentName) {
-      dispatch(actions.changeName(newName))
       broadcast &&
-        dispatch(realtimeActions.setNextBroadcast({ type: BroadcastActionType.GameNameChange, payload: newName }))
+        dispatch(
+          realtimeActions.setNextBroadcast({
+            type: BroadcastActionType.GameNameChange,
+            payload: newName,
+          }),
+        )
+      // Broadcast channel is based on the game name, so the broadcast above needs to happen before we change the game name
+      await Promise.resolve()
+      dispatch(actions.changeName(newName))
+      dispatch(routerActions.push({ search: `?game=${encodeURIComponent(newName)}` }))
     }
   }
 

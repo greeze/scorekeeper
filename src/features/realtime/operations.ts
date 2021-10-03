@@ -3,6 +3,7 @@ import type { AppDispatch } from 'features/app/store'
 import { useMemo } from 'react'
 import { bindActionCreators } from '@reduxjs/toolkit'
 
+import { operations as gameActions } from 'features/game'
 import { operations as playersActions, selectors as playersSelectors } from 'features/players'
 import { BroadcastActionType } from './types'
 import { actions, selectors } from './slice'
@@ -19,7 +20,7 @@ const processReceivedMessage = (): AppThunk => async (dispatch, getState) => {
 
   switch (earliestMessage.name) {
     case BroadcastActionType.GameNameChange: {
-      // TODO: Handle this
+      dispatch(gameActions.changeName(earliestMessage.data, false))
       return
     }
 

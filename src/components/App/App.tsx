@@ -20,7 +20,7 @@ function App() {
     if (gameNameParam) {
       gameActions.changeName(gameNameParam)
     } else {
-      routerActions.replace({ search: `?game=${getRandomString()}` })
+      routerActions.replace({ search: `?game=${encodeURIComponent(getRandomString())}` })
     }
   }, [gameActions, gameNameParam, routerActions])
 
