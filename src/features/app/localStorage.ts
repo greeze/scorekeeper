@@ -4,7 +4,10 @@ import { constants } from './constants'
 interface StoredGame {
   createdAt: number
   updatedAt: number
-  data: RootState
+  data: {
+    game: RootState['game']
+    players: RootState['players']
+  }
 }
 
 type StoredGames = Record<string, StoredGame>
@@ -37,7 +40,10 @@ export const saveState = async (state: RootState) => {
         createdAt: new Date().getTime(),
       }
       persistedGame.updatedAt = new Date().getTime()
-      persistedGame.data = state
+      persistedGame.data = {
+        game: state.game,
+        players: state.players,
+      }
       persistedGames[gameName] = persistedGame
       if (Object.keys(persistedGames).length > 100) {
         const sortedGames = Object.values(persistedGames).sort((a, b) => a.updatedAt - b.updatedAt)

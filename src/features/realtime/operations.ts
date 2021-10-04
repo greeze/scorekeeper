@@ -35,6 +35,11 @@ const processReceivedMessage = (): AppThunk => async (dispatch, getState) => {
       return
     }
 
+    case BroadcastActionType.PlayerNameChange: {
+      dispatch(playersActions.changeName(earliestMessage.data, false))
+      return
+    }
+
     case BroadcastActionType.PlayerRemove: {
       dispatch(playersActions.removeLastPlayer(false))
       return

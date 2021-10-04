@@ -1,10 +1,16 @@
 import type { Types as AblyTypes } from 'ably'
-import type { PlayerData, PlayerScoreIncrementPayload, PlayerUpdatePayload } from 'features/players'
+import type {
+  PlayerData,
+  PlayerNameChangePayload,
+  PlayerScoreIncrementPayload,
+  PlayerUpdatePayload,
+} from 'features/players'
 import { getRandomInteger, getRandomString, getRandomWords } from 'common/utils'
 
 export enum BroadcastActionType {
   GameNameChange = 'GameNameChange',
   PlayerAdd = 'PlayerAdd',
+  PlayerNameChange = 'PlayerNameChange',
   PlayerRemove = 'PlayerRemove',
   PlayerUpdate = 'PlayerUpdate',
   PlayersUpdate = 'PlayersUpdate',
@@ -25,6 +31,11 @@ export interface GameNameChangeBroadcastAction extends IBroadcastAction {
 export interface PlayerAddBroadcastAction extends IBroadcastAction {
   type: BroadcastActionType.PlayerAdd
   payload: PlayerData
+}
+
+export interface PlayerNameChangeBroadcastAction extends IBroadcastAction {
+  type: BroadcastActionType.PlayerNameChange
+  payload: PlayerNameChangePayload
 }
 
 export interface PlayerRemoveBroadcastAction extends IBroadcastAction {
@@ -54,6 +65,7 @@ export interface SubscribedBroadcastAction extends IBroadcastAction {
 export type BroadcastAction =
   | GameNameChangeBroadcastAction
   | PlayerAddBroadcastAction
+  | PlayerNameChangeBroadcastAction
   | PlayerUpdateBroadcastAction
   | PlayerRemoveBroadcastAction
   | PlayersUpdateBroadcastAction

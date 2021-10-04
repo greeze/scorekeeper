@@ -1,5 +1,3 @@
-import type { PlayerData } from 'features/players'
-
 import React, { memo, useCallback } from 'react'
 import { AppBar, Grid, IconButton, Paper, Toolbar, Typography } from '@mui/material'
 import { AddCircleRounded, RemoveCircleRounded } from '@mui/icons-material'
@@ -9,7 +7,7 @@ import { selectors as gameSelectors } from 'features/game'
 import { selectors as playersSelectors, useActions as usePlayersActions } from 'features/players'
 import ShareButton from 'components/SimpleKeeper/ShareButton'
 import Player from 'components/SimpleKeeper/Player'
-import { useColumns, useHandleRename } from './hooks'
+import { useColumns, useHandleRenameGame } from './hooks'
 
 export default memo(function SimpleKeeper() {
   const dispatch = useAppDispatch()
@@ -19,9 +17,8 @@ export default memo(function SimpleKeeper() {
   const columns = useColumns(players)
   const handleAddPlayer = useCallback(() => playersActions.addPlayer(), [playersActions])
   const handleRemovePlayer = useCallback(() => playersActions.removeLastPlayer(), [playersActions])
-  const handleUpdatePlayer = useCallback((player: PlayerData) => playersActions.updatePlayer(player), [playersActions])
-  const handleRename = useHandleRename()
-  const { handleBlur, handleFocus, handleKeyDown, handleKeyUp } = useContentEditableHandlers(handleRename)
+  const handleRenameGame = useHandleRenameGame()
+  const { handleBlur, handleFocus, handleKeyDown, handleKeyUp } = useContentEditableHandlers(handleRenameGame)
 
   return (
     <Paper>
@@ -55,7 +52,7 @@ export default memo(function SimpleKeeper() {
       <Grid container columns={columns} padding={{ xs: 0, sm: 1, md: 2 }} spacing={1}>
         {players.map((player) => (
           <Grid item key={player.id} xs={1} sm={1} md={1} lg={1} xl={1}>
-            <Player player={player} onChange={handleUpdatePlayer} />
+            <Player player={player} />
           </Grid>
         ))}
       </Grid>

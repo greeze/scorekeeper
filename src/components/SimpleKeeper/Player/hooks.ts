@@ -1,19 +1,34 @@
 import type { PlayerData } from 'features/players'
 
 import { useCallback } from 'react'
+import { useAppDispatch } from 'common/hooks'
+import { useActions } from 'features/players'
 
-export const useHandleRename = (player: PlayerData, onChange: (data: PlayerData) => void) =>
-  useCallback(
+export const useHandleRenamePlayer = (player: PlayerData) => {
+  const dispatch = useAppDispatch()
+  const playersActions = useActions(dispatch)
+
+  return useCallback(
     (name: string) => {
-      onChange({ ...player, name })
+      playersActions.changeName({
+        id: player.id,
+        name,
+      })
     },
-    [onChange, player],
+    [player.id, playersActions],
   )
+}
 
-export const useHandleAddScore = (player: PlayerData, onChange: (data: PlayerData) => void) =>
-  useCallback(
+export const useHandleAddScore = (player: PlayerData) => {
+  const dispatch = useAppDispatch()
+  const playersActions = useActions(dispatch)
+  return useCallback(
     (amt: number) => {
-      onChange({ ...player, score: player.score + amt })
+      playersActions.incrementScore({
+        id: player.id,
+        increment: amt,
+      })
     },
-    [onChange, player],
+    [player.id, playersActions],
   )
+}
