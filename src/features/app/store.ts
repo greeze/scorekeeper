@@ -7,6 +7,7 @@ import { connectRouter, routerMiddleware, RouterState } from 'connected-react-ro
 import { reducer as game } from 'features/game'
 import { reducer as players } from 'features/players'
 import { reducer as realtime } from 'features/realtime'
+import { getPreloadedState, saveState } from './localStorage'
 
 export const history = createBrowserHistory()
 
@@ -18,8 +19,13 @@ export const reducer = combineReducers({
 })
 
 export const store = configureStore({
-  reducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware(history)),
+  preloadedState: getPreloadedState(),
+  reducer,
+})
+
+store.subscribe(() => {
+  saveState(store.getState())
 })
 
 export type RootState = ReturnType<typeof store.getState>
