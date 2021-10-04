@@ -10,22 +10,21 @@ import {
   selectors as playersSelectors,
   useActions as usePlayersActions,
 } from 'features/players'
-import { useHandleAddScore, useHandleRename } from 'components/SimpleKeeper/Player/hooks'
+import { useHandleAddScore, useHandleRenamePlayer } from 'components/SimpleKeeper/Player/hooks'
 import SplitButton from 'components/SimpleKeeper/SplitButton'
 
 export interface PlayerProps {
   player: PlayerData
-  onChange?: (data: PlayerData) => void
 }
 
-export default memo(function PlayerColumn({ onChange = () => null, player }: PlayerProps) {
+export default memo(function PlayerColumn({ player }: PlayerProps) {
   const dispatch = useAppDispatch()
   const playerActions = usePlayersActions(dispatch)
   const increment = useAppSelector(playersSelectors.selectIncrement)
   const selectedIndex = useAppSelector(playersSelectors.selectIncrementIndex)
-  const handleAddScore = useHandleAddScore(player, onChange)
-  const handleRename = useHandleRename(player, onChange)
-  const { handleBlur, handleFocus, handleKeyDown, handleKeyUp } = useContentEditableHandlers(handleRename)
+  const handleAddScore = useHandleAddScore(player)
+  const handleRenamePlayer = useHandleRenamePlayer(player)
+  const { handleBlur, handleFocus, handleKeyDown, handleKeyUp } = useContentEditableHandlers(handleRenamePlayer)
 
   const handleSelectIncrement = useCallback(
     (index: number) => {

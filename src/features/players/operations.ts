@@ -1,6 +1,6 @@
 import type { AppDispatch } from 'features/app/store'
 import type { AppThunk } from 'common/types'
-import type { PlayerScoreIncrementPayload, PlayerUpdatePayload } from './types'
+import type { PlayerNameChangePayload, PlayerScoreIncrementPayload, PlayerUpdatePayload } from './types'
 
 import { useMemo } from 'react'
 import { bindActionCreators } from '@reduxjs/toolkit'
@@ -22,6 +22,13 @@ const addPlayer =
     }
     dispatch(actions.addPlayer(newPlayer))
     broadcast && dispatch(realtimeActions.setNextBroadcast({ type: BroadcastActionType.PlayerAdd, payload: newPlayer }))
+  }
+
+const changeName =
+  (payload: PlayerNameChangePayload, broadcast = true): AppThunk =>
+  async (dispatch, getState) => {
+    dispatch(actions.changeName(payload))
+    broadcast && dispatch(realtimeActions.setNextBroadcast({ type: BroadcastActionType.PlayerNameChange, payload }))
   }
 
 const incrementScore =
@@ -50,6 +57,7 @@ const updatePlayer =
 const operations = {
   ...actions,
   addPlayer,
+  changeName,
   incrementScore,
   removeLastPlayer,
   updatePlayer,

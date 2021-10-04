@@ -9,6 +9,11 @@ export interface PlayerData {
 
 export type PlayerUpdatePayload = Partial<PlayerData> & { id: number }
 
+export interface PlayerNameChangePayload {
+  id: PlayerData['id']
+  name: PlayerData['name']
+}
+
 export interface PlayerScoreIncrementPayload {
   id: PlayerData['id']
   increment: number

@@ -8,5 +8,5 @@ type RenderOptions = Parameters<typeof render>[1]
 
 export const renderWrapped = (ui: RenderedUI, preloadedState: PreloadedAppState = {}, options?: RenderOptions) => {
   const store = getStore(preloadedState)
-  return render(<Provider store={store}>{ui}</Provider>, options)
+  return { result: render(<Provider store={store}>{ui}</Provider>, options), store }
 }

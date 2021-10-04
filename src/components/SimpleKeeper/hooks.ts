@@ -11,7 +11,7 @@ export const useColumns = (players: PlayerData[]) => {
   }, [players.length])
 }
 
-export const useHandleRename = () => {
+export const useHandleRenameGame = () => {
   const dispatch = useAppDispatch()
   const gameActions = useGameActions(dispatch)
   return useCallback(

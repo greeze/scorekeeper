@@ -1,7 +1,13 @@
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from 'features/app/store'
 import type { ParamSelector } from 'common/types'
-import type { PlayerData, PlayersState, PlayerScoreIncrementPayload, PlayerUpdatePayload } from 'features/players/types'
+import type {
+  PlayerData,
+  PlayersState,
+  PlayerScoreIncrementPayload,
+  PlayerUpdatePayload,
+  PlayerNameChangePayload,
+} from 'features/players/types'
 
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import { createPlayers } from 'features/players/utils'
@@ -23,6 +29,14 @@ const slice = createSlice({
       const { players } = state
       const { payload } = action
       players.push(payload)
+    },
+
+    changeName: (state, action: PayloadAction<PlayerNameChangePayload>) => {
+      const { payload } = action
+      const player = state.players.find(({ id }) => id === payload.id)
+      if (player) {
+        player.name = payload.name
+      }
     },
 
     removePlayer: (state, action: PayloadAction<PlayerData>) => {
